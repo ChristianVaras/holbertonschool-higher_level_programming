@@ -1,70 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "lists.h"
 
 /**
- * insert_node - malloc and insert node into sorted singly linked list
- * @head: pointer to head of linked list
- * @number: data for new node
- * Return: address of new node, or NULL if failed
+ * insert_node - inserts new node to a sorted linked list
+ * @head: head of linked list
+ * @number: value in linked list->n
+ *
+ * Return: address of the new node, or NULL if it failed
  */
-
 listint_t *insert_node(listint_t **head, int number)
 {
-	listint_t *tmp = NULL;
-	listint_t *new = NULL;
+	listint_t *head_tmp, *new_node, *next_node;
 
+	head_tmp = *head;
 	if (!head)
 		return (NULL);
-
-	/* malloc new node */
-	new = malloc(sizeof(listint_t));
-	if (new == NULL)
+	new_node = malloc(sizeof(listint_t));
+	if (!new_node)
 		return (NULL);
-	new->n = number;
-	new->next = NULL;
+	new_node->n = number;
 
-	/* if no linked list, insert node as the only member */
-	if (*head == NULL)
+	if (!head_tmp || head_tmp->n >= number)
 	{
-		*head = new;
-		(*head)->next = NULL;
-		return (new);
-	}
-	/* if only one node in linked list, do comparision and insert */
-	if ((*head)->next == NULL)
-	{
-		if ((*head)->n < new->n)
-			(*head)->next = new;
-		else
-		{
-			new->next = *head;
-			*head = new;
-		}
-		return (new);
+		new_node->next = head_tmp;
+		*head = new_node;
+		return (new_node);
 	}
 
-	/* if lots of nodes in linked list, do comparision and insert */
-	tmp = *head;
-	while (tmp->next != NULL)
+	next_node = head_tmp->next;
+	while (head_tmp && next_node && (number >= next_node->n))
 	{
-		/* if new node num is smaller than first node, insert */
-		if (new->n < tmp->n)
-		{
-			new->next = tmp;
-			*head = new;
-			return (new);
-		}
-		/* if new node num is the same as an existing node, insert */
-		/* compare previous node and next node, insert in between */
-		if (((new->n > tmp->n) && (new->n < (tmp->next)->n)) ||
-		    (new->n == tmp->n))
-		{
-			new->next = tmp->next;
-			tmp->next = new;
-			return (new);
-		}
-		tmp = tmp->next;
+		head_tmp = head_tmp->next;
+		next_node = head_tmp->next;
 	}
-	/* if new node is greatest and never inserted, insert now */
-	tmp->next = new;
-	return (new);
+	head_tmp->next = new_node;
+	new_node->next = next_node;
+	return (new_node);
 }
