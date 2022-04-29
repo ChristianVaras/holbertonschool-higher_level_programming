@@ -2,11 +2,11 @@
 from sys import argv
 
 if __name__ == "__main__":
-    userin = argv[1:]
-    size = len(userin)
-    print("{:d} {:s}{:s}".
-          format(size,
-                 "arguments" if (size) is not 1 else "argument",
-                 "." if (size) is 0 else ":"))
-    for idx, arg in enumerate(userin):
-        print("{:d}: {:s}".format(idx + 1, arg))
+    i = 1
+    args = len(argv) - 1
+
+    print(f"{args} {'argument' if args == 1 else 'arguments'}", end="")
+    print(f"{'.' if args == 0 else ':'}")
+    while (i <= args):
+        print(f"{i}: {argv[i]}")
+        i += 1
