@@ -1,25 +1,32 @@
 #!/usr/bin/python3
-"""Contains function that adds and saves to Python obj
-to JSON file; loads objects
+"""
+This module defines a script which takes argvs
+and appends them to a python list, then writes
+the data in a new text file 'add_item.json' in
+JSON format.
 """
 import json
 from sys import argv
 
 
-save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
-load_from_json_file = __import__('6-load_from_json_file').load_from_json_file
+def save_to_json_file(my_obj, filename):
+    """Writes an Object to a text file, using a JSON representation"""
+    with open(filename, 'w', encoding="utf-8") as file:
+        file.write(json.dumps(my_obj))
 
-filename = "add_item.json"
-# Create the object or calling from json
+
+def load_from_json_file(filename):
+    """Creates an Object from a “JSON file”"""
+    with open(filename, 'r', encoding="utf-8") as file:
+        return json.loads(file.read())
+
+
+object = []
 try:
-    f = open(filename, 'r')
-    obj = load_from_json_file(filename)
-except Exception:
-    obj = []
-
-for i in range(1, len(argv)):
-    obj.append(argv[i])
-
-# Create json file
-with open(filename, 'w') as f:
-    json.dump(obj, f)
+    object = load_from_json_file("add_item.json")
+except FileNotFoundError:
+    pass
+finally:
+    for i in range(1, len(argv)):
+        object.append(argv[i])
+    save_to_json_file(object, "add_item.json")
