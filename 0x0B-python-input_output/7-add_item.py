@@ -13,11 +13,11 @@ filename = "add_item.json"
 # Create the object or calling from json
 try:
     obj = load_from_json_file(filename)
-except Exception:
+except FileNotFoundError:
     obj = []
 
-for i in range(1, len(argv)):
+finally:
+    for i in range(1, len(argv)):
     obj.append(argv[i])
-
-# Create json file
-save_to_json_file(obj, filename)
+    # Create json file
+    save_to_json_file(obj, filename)
