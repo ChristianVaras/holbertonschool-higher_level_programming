@@ -5,16 +5,13 @@ Contains function that returns int lists of pascal triangle of any given size
 
 
 def pascal_triangle(n):
-    if n <= 0:
-        return []
-    if n == 1:
-        return [[1]]
-
-    triangle = [[1]]
-    for rows in range(n-1):
-        l = [1]
-        for i in range(rows):
-            l.append(triangle[-1][i] + triangle[-1][i+1])
-        l.append(1)
-        triangle.append(l)
+    """Returns a pascal triangle matrix"""
+    triangle = []
+    for i in range(n):
+        row = [1]
+        if i > 0:
+            for j in range(len(triangle[i - 1]) - 1):
+                row.append(triangle[i - 1][j] + triangle[i - 1][j + 1])
+            row.append(1)
+        triangle.append(row)
     return triangle
