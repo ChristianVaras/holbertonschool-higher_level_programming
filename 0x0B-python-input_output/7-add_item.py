@@ -2,6 +2,7 @@
 """
 Contains function that adds and saves to Python obj to JSON file; loads objects
 """
+import json
 from sys import argv
 
 
@@ -12,7 +13,7 @@ filename = "add_item.json"
 
 try:
     existing_content = load_from_json_file(filename)
-except FileNotFoundError:
+except Exception:
     existing_content = []
 
 save_to_json_file(existing_content + argv[1:], filename)
