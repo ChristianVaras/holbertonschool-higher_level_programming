@@ -72,7 +72,7 @@ class Base:
                 for dictionary in obj_list:
                     result.append(cls.create(**dictionary))
                 return result
-        except:
+        except Exception:
             return result
 
     @classmethod
@@ -138,7 +138,7 @@ class Base:
                         # create an object and append to a list
                         result.append(cls.create(**dict))
                 return result
-        except:
+        except Exception:
             return result
 
     @staticmethod
